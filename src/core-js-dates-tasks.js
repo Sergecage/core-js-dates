@@ -32,8 +32,8 @@ function dateToTimestamp(date) {
  * Date(2023, 5, 1, 8, 20, 55) => '08:20:55'
  * Date(2015, 10, 20, 23, 15, 1) => '23:15:01'
  */
-function getTime(/* date */) {
-  throw new Error('Not implemented');
+function getTime(date) {
+  return date.toLocaleTimeString();
 }
 
 /**
@@ -47,8 +47,34 @@ function getTime(/* date */) {
  * '03 Dec 1995 00:12:00 UTC' => 'Sunday'
  * '2024-01-30T00:00:00.000Z' => 'Tuesday'
  */
-function getDayName(/* date */) {
-  throw new Error('Not implemented');
+function getDayName(date) {
+  const dayNumber = new Date(date).getDay();
+  let day = "";
+
+  switch (dayNumber) {
+    case 0:
+      day = "Sunday";
+      break;
+      case 1:
+      day = "Monday";
+      break;
+      case 2:
+      day = "Tuesday";
+      break;
+      case 3:
+      day = "Wednesday";
+      break;
+      case 4:
+      day = "Thursday";
+      break;
+      case 5:
+      day = "Friday";
+      break;
+      case 6:
+      day = "Saturday";
+      break;
+  }
+  return day;
 }
 
 /**
@@ -62,8 +88,15 @@ function getDayName(/* date */) {
  * Date('2024-02-13T00:00:00Z') => Date('2024-02-16T00:00:00Z')
  * Date('2024-02-16T00:00:00Z') => Date('2024-02-23T00:00:00Z')
  */
-function getNextFriday(/* date */) {
-  throw new Error('Not implemented');
+function getNextFriday(date) {
+  if (date.getDay() === 5) {
+    date.setDate(date.getDay() + 7);
+  } else if (date.getDay() === 6) {
+    date.setDate(date.getDay() + 6)
+  } else {
+    date.setDate(date.getDate() + 5 - date.getDay());
+  }
+  return date;
 }
 
 /**
@@ -77,8 +110,8 @@ function getNextFriday(/* date */) {
  * 1, 2024 => 31
  * 2, 2024 => 29
  */
-function getCountDaysInMonth(/* month, year */) {
-  throw new Error('Not implemented');
+function getCountDaysInMonth(month, year) {
+  return new Date(year, month, 0).getDay();
 }
 
 /**
@@ -92,8 +125,10 @@ function getCountDaysInMonth(/* month, year */) {
  * '2024-02-01T00:00:00.000Z', '2024-02-02T00:00:00.000Z'  => 2
  * '2024-02-01T00:00:00.000Z', '2024-02-12T00:00:00.000Z'  => 12
  */
-function getCountDaysOnPeriod(/* dateStart, dateEnd */) {
-  throw new Error('Not implemented');
+function getCountDaysOnPeriod(dateStart, dateEnd) {
+  const startDate = new Date(dateStart);
+  const finalDate = new Date(dateEnd);
+  return Number(finalDate.getTime() - startDate.getTime()) / 86400000 + 1;
 }
 
 /**
@@ -113,8 +148,11 @@ function getCountDaysOnPeriod(/* dateStart, dateEnd */) {
  * '2024-02-02', { start: '2024-02-02', end: '2024-03-02' } => true
  * '2024-02-10', { start: '2024-02-02', end: '2024-03-02' } => true
  */
-function isDateInPeriod(/* date, period */) {
-  throw new Error('Not implemented');
+function isDateInPeriod(date, period) {
+  const startDate = new Date(period.start);
+  const finalDate = new Date(period.end);
+  const specificDay = new Date(date);
+  return specificDay >= startDate && specificDay <= finalDate;
 }
 
 /**
@@ -128,8 +166,19 @@ function isDateInPeriod(/* date, period */) {
  * '1999-01-05T02:20:00.000Z' => '1/5/1999, 2:20:00 AM'
  * '2010-12-15T22:59:00.000Z' => '12/15/2010, 10:59:00 PM'
  */
-function formatDate(/* date */) {
-  throw new Error('Not implemented');
+function formatDate(date) {
+  const formattedDate = new Date(date);
+  const settings = {
+    year: "numeric",
+    month: "numeric",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: true,
+    timeZone: "UTC",
+  };
+  return new Intl.DateTimeFormat('en-US', settings).format(formattedDate);
 }
 
 /**
