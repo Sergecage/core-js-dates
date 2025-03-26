@@ -92,7 +92,6 @@ function getNextFriday(date) {
   const weekdDay = nextFriday.getDay();
   const countNextFr = (5 - weekdDay + 7) % 7 || 7;
   nextFriday.setDate(date.getDate() + countNextFr);
-  console.log(nextFriday);
   return nextFriday;
 }
 
